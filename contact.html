@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Rentoc Reflux</title>
+  <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- SweetAlert CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      color: #333;
+      overflow-x: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    /* ========== UPDATED NAVBAR SAME AS HOME PAGE ========== */
+    .navbar {
+      background: transparent;
+      padding: 15px 30px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #f59e0b;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      min-height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      text-align: center;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    .typing {
+      font-size: 5em;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: 15px;
+      opacity: 0;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease forwards 1s;
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 0.5s infinite;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+      background: #fff;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .section.visible {
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .section h2 {
+      color: #1a2a44;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: 0 auto 1em;
+      color: #555;
+      font-size: 1.1em;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 40px auto 0;
+      text-align: left;
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    .contact-form.visible {
+      animation: slideIn 0.6s ease forwards;
+    }
+
+    .contact-form label {
+      display: block;
+      margin: 15px 0 8px;
+      font-weight: bold;
+      color: #1a2a44;
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .contact-form button:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .contact-form button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-item {
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-item.visible {
+      animation: slideIn 0.6s ease forwards;
+    }
+
+    .contact-item i {
+      font-size: 2.5em;
+      color: #f59e0b;
+      margin-bottom: 20px;
+      display: block;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .contact-item.visible i {
+      animation: bounceIn 0.4s ease forwards 0.2s;
+    }
+
+    .contact-item h3 {
+      color: #1a2a44;
+      margin: 10px 0;
+      font-size: 1.3em;
+    }
+
+    .contact-item a {
+      color: #555;
+      text-decoration: none;
+      word-break: break-all;
+      transition: color 0.3s ease;
+      display: block;
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+
+    .contact-item a:hover {
+      color: #f59e0b;
+    }
+
+    /* Loader styles */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 99999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #loader h1 {
+      font-size: 2.5rem;
+      color: #004080;
+      margin-bottom: 2rem;
+      letter-spacing: 3px;
+    }
+
+    #loader .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #004080;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1.2s linear infinite;
+    }
+
+    body.loaded #loader {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      display: none !important;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) translateX(0);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      60% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Form loading overlay */
+    .form-loading {
+      position: relative;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .form-loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .form-loading::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #f59e0b;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      z-index: 101;
+    }
+
+    /* Footer */
+    .footer {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      padding: 60px 20px 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+
+    .footer-col h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .footer-col h3::after {
+      content: "";
+      width: 50px;
+      height: 4px;
+      background: #fff;
+      display: block;
+      margin-top: 8px;
+      border-radius: 3px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin: 8px 0;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+      transform: translateX(5px);
+    }
+
+    .social-links a {
+      display: inline-block;
+      color: #fff;
+      margin-right: 15px;
+      font-size: 1.3rem;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.3);
+      color: #ffd700;
+    }
+
+    .date-time {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 20px;
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    /* ========== RESPONSIVE DESIGN ========== */
+    @media (max-width: 1024px) {
+      .typing {
+        font-size: 4em;
+        letter-spacing: 10px;
+      }
+
+      .navbar {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .section h2 {
+        font-size: 2.2em;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .logo-container {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .typing {
+        font-size: 3em;
+        letter-spacing: 5px;
+      }
+
+      .section {
+        padding: 40px 15px;
+      }
+
+      .section h2 {
+        font-size: 2em;
+      }
+
+      .contact-form {
+        max-width: 100%;
+      }
+
+      .contact-item {
+        padding: 20px;
+      }
+
+      .hero video {
+        display: none;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #1a2a44, #2a5298);
+        min-height: 80vh;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar a {
+        font-size: 1em;
+        padding: 5px;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+
+      .typing {
+        font-size: 2.5em;
+        letter-spacing: 3px;
+      }
+
+      .contact-info {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .typing {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <h1>Rentoc Reflux</h1>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <video autoplay muted loop>
+      <source src="./assets/vid.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- UPDATED NAVBAR SAME AS HOME PAGE -->
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="logo-container">
+        <img src="./assets/logo.png" alt="Rentoc Reflux Logo">
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="typing" id="typing-text">Contact Us</div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="section" id="contact-section">
+    <h2>Get in Touch</h2>
+    <p>
+      At Rentoc Reflux, we specialize in supplying high-quality materials to the
+      steel industry, with a focus on fluorides, carbon, and aluminum-based
+      solutions. Our commitment to efficiency and innovation ensures that we
+      deliver reliable products tailored to meet the evolving demands of the
+      sector. Contact us today to discuss how we can support your projects.
+    </p>
+
+    <form id="contactForm" class="contact-form">
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="from_name" placeholder="Enter your full name" required />
+
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="from_email" placeholder="Enter your email address" required />
+
+      <label for="company">Company Name</label>
+      <input type="text" id="company" name="company" placeholder="Enter your company name" />
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" />
+
+      <label for="material">Material Interest *</label>
+      <select id="material" name="material_interest" required>
+        <option value="">Select material interest</option>
+        <option value="fluorides">Fluorides</option>
+        <option value="carbon">Carbon</option>
+        <option value="aluminum">Aluminum</option>
+        <option value="other">Other Materials</option>
+        <option value="multiple">Multiple Materials</option>
+      </select>
+
+      <label for="quantity">Estimated Quantity (in tons)</label>
+      <input type="number" id="quantity" name="quantity" placeholder="Enter estimated quantity" min="0" step="0.01" />
+
+      <label for="subject">Subject *</label>
+      <input type="text" id="subject" name="subject" placeholder="Enter subject of your inquiry" required />
+
+      <label for="message">Message *</label>
+      <textarea id="message" name="message" rows="6" placeholder="Please provide details about your inquiry..."
+        required></textarea>
+
+      <button type="submit" id="submitBtn">
+        <span id="submitText">Send Message</span>
+        <span id="submitSpinner" style="display: none;">
+          <i class="fas fa-spinner fa-spin"></i> Sending...
+        </span>
+      </button>
+    </form>
+
+    <!-- Contact Information Section -->
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <h3>General Inquiries</h3>
+        <a href="mailto:Vp@Rentocreflux.com" class="email-link">info@parthindia.com</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">For general questions and information</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>Sales</h3>
+        <a href="mailto:Vp@Rentocreflux.com" class="email-link">sales@parthindia.com</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">For product inquiries and purchases</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-headset"></i>
+        <h3>Customer Support</h3>
+        <a href="mailto:Sales1@rentocreflux.com" class="email-link">support@parthindia.com</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">For technical support and assistance</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-handshake"></i>
+        <h3>Partnerships</h3>
+        <a href="mailto:ceo@rentocreflux.com" class="email-link">partners@parthindia.com</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">For business collaboration opportunities</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-briefcase"></i>
+        <h3>Careers</h3>
+        <a href="mailto:Vp@Rentocreflux.com" class="email-link">careers@parthindia.com</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">For employment opportunities</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-phone-alt"></i>
+        <h3>Emergency Contact</h3>
+        <a href="tel:+919175786583" class="phone-link">+91 9175786583</a>
+        <p style="color: #777; margin-top: 10px; font-size: 0.9em;">24/7 emergency support line</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Rentoc Reflux</h3>
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Current Date & Time</h3>
+        <div class="date-time" id="date-time"></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Rentoc Reflux. All rights reserved by Hruta Solutions.
+    </div>
+  </div>
+
+  <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- EmailJS Script -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    // EmailJS Configuration - REPLACE WITH YOUR ACTUAL KEYS
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE';
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID_HERE';
+
+    // Fallback email address for manual contact
+    const FALLBACK_EMAIL = 'Vp@Rentocreflux.com';
+
+    // Initialize EmailJS
+    (function () {
+      try {
+        emailjs.init({
+          publicKey: EMAILJS_PUBLIC_KEY,
+          blockHeadless: true,
+          limitRate: {
+            throttle: 10000, // 10 seconds
+          },
+        });
+        console.log('EmailJS initialized successfully');
+      } catch (error) {
+        console.error('EmailJS initialization failed:', error);
+      }
+    })();
+
+    // Loader logic
+    let isLoaderHidden = false;
+    let loaderTimeout = null;
+
+    function hideLoader() {
+      if (isLoaderHidden) return;
+      isLoaderHidden = true;
+      clearTimeout(loaderTimeout);
+      document.body.classList.add("loaded");
+      const loader = document.getElementById("loader");
+      loader.style.opacity = "0";
+      loader.style.visibility = "hidden";
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 500);
+    }
+
+    // Typing animation
+    function setupTypingAnimation() {
+      const typingText = document.getElementById("typing-text");
+      const text = "Contact Us";
+      let index = 0;
+
+      function type() {
+        if (index < text.length) {
+          typingText.textContent = text.slice(0, index + 1);
+          index++;
+          setTimeout(type, 150);
+        } else {
+          typingText.style.animation = "fadeIn 1s ease forwards, blink 0.5s infinite";
+        }
+      }
+      setTimeout(() => {
+        typingText.style.opacity = "0";
+        type();
+      }, 1000);
+    }
+
+    // IntersectionObserver for animations
+    function setupAnimations() {
+      const observerOptions = {
+        root: null,
+        threshold: 0.1,
+        rootMargin: "0px",
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".section, .contact-form, .contact-item").forEach((el) => {
+        observer.observe(el);
+      });
+    }
+
+    // Update date & time live
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+        timeZoneName: "short",
+      };
+      document.getElementById("date-time").textContent = now.toLocaleString("en-IN", options);
+    }
+
+    // Show success modal with SweetAlert
+    function showSuccessModal() {
+      Swal.fire({
+        title: 'Message Sent Successfully!',
+        text: 'Thank you for contacting Rentoc Reflux. We\'ll get back to you within 24 hours.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#f59e0b',
+        timer: 5000,
+        timerProgressBar: true,
+        didClose: () => {
+          document.getElementById('contactForm').reset();
+        }
+      });
+    }
+
+    // Show error modal with fallback email
+    function showErrorModal(errorMessage = '') {
+      const errorText = errorMessage ? `Error: ${errorMessage}` : '';
+
+      Swal.fire({
+        title: 'Message Sending Failed',
+        html: `
+          <p>Failed to send your message. Please try again or contact us directly at:</p>
+          <div style="text-align: left; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+            <p><strong>Primary Email:</strong></p>
+            <p style="font-size: 1.1em; color: #1a2a44;">
+              <i class="fas fa-envelope"></i> ${FALLBACK_EMAIL}
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+              Copy the email address above and send your inquiry directly.
+            </p>
+          </div>
+          ${errorText ? `<p style="color: #dc3545; font-size: 0.9em;">${errorText}</p>` : ''}
+        `,
+        icon: 'error',
+        confirmButtonText: 'Copy Email',
+        cancelButtonText: 'Try Again',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        focusConfirm: false,
+        preConfirm: () => {
+          // Copy email to clipboard
+          navigator.clipboard.writeText(FALLBACK_EMAIL)
+            .then(() => {
+              Swal.fire({
+                title: 'Email Copied!',
+                text: 'Email address copied to clipboard',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+              });
+            })
+            .catch(() => {
+              Swal.fire({
+                title: 'Copy Failed',
+                text: 'Please manually copy the email address',
+                icon: 'info',
+                timer: 3000,
+                showConfirmButton: false
+              });
+            });
+        }
+      });
+    }
+
+    // Show loading state
+    function showLoading() {
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      submitSpinner.style.display = 'inline';
+    }
+
+    // Hide loading state
+    function hideLoading() {
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+
+      submitBtn.disabled = false;
+      submitText.style.display = 'inline';
+      submitSpinner.style.display = 'none';
+    }
+
+    // Form submission handler
+    function setupFormSubmission() {
+      const form = document.getElementById('contactForm');
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        // Check if EmailJS is available
+        if (typeof emailjs === 'undefined') {
+          showErrorModal('Email service not available');
+          return;
+        }
+
+        // Validate form
+        if (!form.checkValidity()) {
+          Swal.fire({
+            title: 'Please fill all required fields',
+            text: 'All fields marked with * are required',
+            icon: 'warning',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#f59e0b'
+          });
+          return;
+        }
+
+        // Show loading state
+        showLoading();
+
+        try {
+          // Send email using EmailJS
+          const response = await emailjs.sendForm(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            form,
+            {
+              publicKey: EMAILJS_PUBLIC_KEY,
+            }
+          );
+
+          console.log('Email sent successfully:', response);
+          hideLoading();
+          showSuccessModal();
+
+        } catch (error) {
+          console.error('Email sending failed:', error);
+          hideLoading();
+          showErrorModal(error.text || error.message || 'Unknown error');
+        }
+      });
+    }
+
+    // Execute after page load
+    window.addEventListener('load', function () {
+      console.log('Page loaded, initializing scripts');
+      hideLoader();
+      setupTypingAnimation();
+      setupAnimations();
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+      setupFormSubmission();
+    });
+
+    // Fallback loader timeout
+    loaderTimeout = setTimeout(hideLoader, 3000);
+
+    // Additional functionality: Copy email on click
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.email-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const email = this.getAttribute('href').replace('mailto:', '');
+          navigator.clipboard.writeText(email)
+            .then(() => {
+              Swal.fire({
+                title: 'Email Copied!',
+                text: `${email} copied to clipboard`,
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+              });
+            })
+            .catch(() => {
+              // Fallback: Open email client
+              window.location.href = `mailto:${email}`;
+            });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

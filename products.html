@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products - Rentoc Reflux</title>
+  <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --primary-color: #1a2a44;
+      --accent-color: #f59e0b;
+      --text-light: #fff;
+      --text-dark: #333;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    /* ========== UPDATED NAVBAR SAME AS HOME PAGE ========== */
+    .navbar {
+      background: transparent;
+      padding: 15px 30px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .navbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .navbar a:hover::after {
+      width: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      min-height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      text-align: center;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    .typing {
+      font-size: 5em;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: 15px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1s;
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 0.5s infinite;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+      background: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section.visible {
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .section h2 {
+      color: var(--primary-color);
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--accent-color);
+      border-radius: 2px;
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      color: #555;
+      font-size: 1.1em;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .product-item {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .product-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .product-item.visible {
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .product-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .product-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .product-item h3 {
+      color: var(--primary-color);
+      margin: 15px 0;
+      font-size: 1.3em;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-item .product-description {
+      color: #666;
+      font-size: 0.95em;
+      margin: 15px 0;
+      line-height: 1.5;
+      min-height: 60px;
+    }
+
+    .spec-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.95em;
+      font-weight: 600;
+      transition: var(--transition);
+      margin-top: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .spec-btn:hover {
+      background: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--accent-color), #e67e22);
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .cta.visible {
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .cta h2 {
+      color: var(--text-light);
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 700px;
+      margin: 0 auto 30px;
+      font-size: 1.1em;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--primary-color);
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      background: var(--text-light);
+      color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: var(--text-light);
+      padding: 60px 20px 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+
+    .footer-col h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .footer-col h3::after {
+      content: "";
+      width: 50px;
+      height: 4px;
+      background: var(--text-light);
+      display: block;
+      margin-top: 8px;
+      border-radius: 3px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin: 8px 0;
+      transition: var(--transition);
+    }
+
+    .footer-col a:hover {
+      color: var(--text-light);
+      transform: translateX(5px);
+    }
+
+    .social-links a {
+      display: inline-block;
+      color: var(--text-light);
+      margin-right: 15px;
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      transform: translateY(-5px);
+      color: var(--accent-color);
+    }
+
+    .date-time {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 20px;
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    /* Loader styles */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 99999;
+      transition: opacity 0.5s ease;
+    }
+
+    #loader h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    #loader .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid var(--primary-color);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    body.loaded #loader {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 0;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 700px;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.4s ease-out;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-header {
+      background: var(--primary-color);
+      color: var(--text-light);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .close {
+      color: var(--text-light);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close:hover {
+      color: var(--accent-color);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 30px;
+      line-height: 1.7;
+    }
+
+    .modal-body h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .modal-body p {
+      color: #555;
+      font-size: 1.05em;
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .specs-table th,
+    .specs-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .specs-table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .specs-table tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Categories Section */
+    .categories {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+
+    .category-btn {
+      padding: 10px 25px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 50px;
+      font-size: 1em;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .category-btn.active,
+    .category-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    /* ========== RESPONSIVE DESIGN ========== */
+    @media (max-width: 1024px) {
+      .typing {
+        font-size: 4em;
+        letter-spacing: 10px;
+      }
+
+      .navbar {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .section h2 {
+        font-size: 2.2em;
+      }
+
+      .product-item img {
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .logo-container {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .typing {
+        font-size: 3em;
+        letter-spacing: 5px;
+      }
+
+      .section {
+        padding: 60px 15px;
+      }
+
+      .section h2 {
+        font-size: 2em;
+      }
+
+      .product-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .product-item {
+        padding: 20px;
+      }
+
+      .product-item h3 {
+        font-size: 1.2em;
+        min-height: 50px;
+      }
+
+      .modal-content {
+        width: 95%;
+        margin: 5% auto;
+      }
+
+      .hero video {
+        display: none;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #1a2a44, #2a5298);
+        min-height: 80vh;
+      }
+
+      .categories {
+        gap: 10px;
+      }
+
+      .category-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar a {
+        font-size: 1em;
+        padding: 5px;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+
+      .typing {
+        font-size: 2.5em;
+        letter-spacing: 3px;
+      }
+
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+
+      .product-item img {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .typing {
+        font-size: 2em;
+      }
+
+      .spec-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <h1>Rentoc Reflux</h1>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Product Specifications</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <video autoplay muted loop>
+      <source src="./assets/vid.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- UPDATED NAVBAR SAME AS HOME PAGE -->
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="logo-container">
+        <img src="./assets/logo.png" alt="Rentoc Reflux Logo">
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="typing" id="typing-text">Our Products</div>
+      <p style="color: white; max-width: 800px; margin: 0 auto; font-size: 1.2em; opacity: 0.9;">
+        Premium materials for steel manufacturing. Discover our comprehensive range of high-quality products
+        designed to enhance steel production efficiency and quality.
+      </p>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="section" style="background-color: #f8f9fa;">
+    <h2>Product Categories</h2>
+    <p>Browse our products by category to find exactly what you need for your steel manufacturing processes.</p>
+
+    <div class="categories">
+      <button class="category-btn active" data-category="all">All Products</button>
+      <button class="category-btn" data-category="coke">Coke Products</button>
+      <button class="category-btn" data-category="compounds">Compounds</button>
+      <button class="category-btn" data-category="briquettes">Briquettes</button>
+      <button class="category-btn" data-category="fluorspar">Fluorspar</button>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <div class="section products">
+    <h2>Our Product Portfolio</h2>
+    <p>
+      At Rentoc Reflux, we provide high-quality materials essential for the
+      steel industry, including various cokes, coals, compounds, and specialized materials.
+    </p>
+    <div class="product-list">
+
+      <div class="product-item" data-category="compounds">
+        <img src="./assets/4.jpeg"
+          alt="ALOx" />
+        <h3>ALOx</h3>
+        <p class="product-description">Aluminum oxide compounds for deoxidation and slag recovery in steel
+          manufacturing.</p>
+        <button class="spec-btn" data-product="alox">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="fluorspar">
+        <img
+          src="https://file2.okorder.com/prodalbum/2015/01/21/545bb9e129d72714d3a014c126753b79.jpg"
+          alt="Fluorspar" />
+        <h3>FLUORSPAR</h3>
+        <p class="product-description">High-purity fluorspar in metallurgical, ceramic, and acid grades for various
+          applications.</p>
+        <button class="spec-btn" data-product="fluorspar">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="fluorspar">
+        <img
+          src="https://futurerefractories.com/wp-content/uploads/2024/10/nozzle-filling-compound-quartz-base-500x500-1.jpg"
+          alt="Synthetic Fluorspar" />
+        <h3>SYNTHETIC FLUORSPAR</h3>
+        <p class="product-description">Synthesized fluorspar alternatives with consistent quality and purity levels.</p>
+        <button class="spec-btn" data-product="synthetic-fluorspar">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="compounds">
+        <img
+          src="https://5.imimg.com/data5/SELLER/Default/2024/2/389772543/ST/QI/RX/29776157/ladle-tundish-covering-compound-500x500.jpg"
+          alt="Ladle Covering Compound" />
+        <h3>LADLE COVERING COMPOUND</h3>
+        <p class="product-description">Specialized compounds for ladle covering applications to prevent heat loss and
+          oxidation.</p>
+        <button class="spec-btn" data-product="ladle-compound">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="coke">
+        <img src="./assets/1.jpeg" alt="METCOKE" />
+        <h3>METCOKE</h3>
+        <p class="product-description">High-quality metallurgical coke for steel production with excellent carbon
+          content and low impurities.</p>
+        <button class="spec-btn" data-product="metcoke">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="coke">
+        <img src="./assets/2.jpeg" alt="Calcined Petroleum Coke" />
+        <h3>CALCINED PETROLIUM COKE (CPC)</h3>
+        <p class="product-description">Premium calcined petroleum coke with high carbon content for specialized
+          applications.</p>
+        <button class="spec-btn" data-product="cpc">View Specifications</button>
+      </div>
+
+      <div class="product-item" data-category="briquettes">
+        <img
+          src="https://seasomcarbon.com/assets/img/product_img/Briquetted_coke.jpg"
+          alt="Coke Briquettes" />
+        <h3>COKE BRIQUETTES</h3>
+        <p class="product-description">Compressed coke briquettes for efficient handling and optimal furnace
+          performance.</p>
+        <button class="spec-btn" data-product="coke-briquettes">View Specifications</button>
+      </div>
+
+      
+
+      <div class="product-item" data-category="compounds">
+        <img src="https://2.wlimg.com/product_images/bc-500/2019/8/334935/nozzle-filling-compound-1566805829-1336923.jpeg"
+          alt="Nozzle Filling Compound" />
+        <h3>NOZZLE FILLING COMPOUND</h3>
+        <p class="product-description">Specialized compounds for nozzle applications with chrome and silica-based
+          grades.</p>
+        <button class="spec-btn" data-product="nozzle-compound">View Specifications</button>
+      </div>
+      
+      <div class="product-item" data-category="briquettes">
+        <img
+          src="./assets/5.jpeg"
+          alt="Synthetic Slag Briquettes" />
+        <h3>SYNTHETIC SLAG BRIQUETTES</h3>
+        <p class="product-description">Synthetic slag forming briquettes for improved steel quality and slag control.
+        </p>
+        <button class="spec-btn" data-product="slag-briquettes">View Specifications</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Technical Info Section -->
+  <div class="section" style="background-color: #f8f9fa;">
+    <h2>Technical Support</h2>
+    <p>Our technical team provides comprehensive support for product selection, application guidance, and
+      troubleshooting.</p>
+
+    <div class="product-list" style="margin-top: 40px;">
+      <div class="product-item" style="text-align: left;">
+        <i class="fas fa-flask" style="color: var(--accent-color); font-size: 2em; margin-bottom: 15px;"></i>
+        <h3>Technical Consultation</h3>
+        <p>Get expert advice on product selection and application optimization for your specific steel manufacturing
+          needs.</p>
+      </div>
+      <div class="product-item" style="text-align: left;">
+        <i class="fas fa-cogs" style="color: var(--accent-color); font-size: 2em; margin-bottom: 15px;"></i>
+        <h3>Process Optimization</h3>
+        <p>Our engineers help optimize your steel production processes using our materials for maximum efficiency.</p>
+      </div>
+      <div class="product-item" style="text-align: left;">
+        <i class="fas fa-chart-line" style="color: var(--accent-color); font-size: 2em; margin-bottom: 15px;"></i>
+        <h3>Quality Analysis</h3>
+        <p>Detailed quality analysis and performance testing of materials to ensure optimal results in your operations.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta">
+    <h2>Ready to Enhance Your Steel Production?</h2>
+    <p>
+      Contact us to learn more about our premium products and how they can optimize your steel manufacturing processes.
+    </p>
+    <a href="contact.html" class="cta-button">Contact Our Experts</a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Rentoc Reflux</h3>
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Current Date & Time</h3>
+        <div class="date-time" id="date-time"></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Rentoc Reflux. All rights reserved by Hruta Solutions.
+    </div>
+  </div>
+
+  <script>
+    // Enhanced product specifications data
+    const productSpecs = {
+      metcoke: {
+        title: "METCOKE Specifications",
+        content: `
+          <h3>Metallurgical Coke (METCOKE)</h3>
+          <p>High-quality metallurgical coke specifically designed for steel production applications.</p>
+          
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fixed Carbon</td>
+                <td>86% - 90% min</td>
+              </tr>
+              <tr>
+                <td>Ash Content</td>
+                <td>10% - 13% max</td>
+              </tr>
+              <tr>
+                <td>Volatile Matter</td>
+                <td>1.2% - 2.0% max</td>
+              </tr>
+              <tr>
+                <td>Moisture</td>
+                <td>5% max</td>
+              </tr>
+              <tr>
+                <td>Sulfur</td>
+                <td>0.55% - 0.75% max</td>
+              </tr>
+              <tr>
+                <td>Phosphorus</td>
+                <td>0.05% max</td>
+              </tr>
+              <tr>
+                <td>Size</td>
+                <td>40-80mm, 25-40mm, 10-25mm</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h3>Applications</h3>
+          <ul>
+            <li>Blast furnace operations</li>
+            <li>Foundry applications</li>
+            <li>Ferroalloy production</li>
+            <li>Calcium carbide production</li>
+          </ul>
+        `,
+      },
+      cpc: {
+        title: "Calcined Petroleum Coke (CPC) Specifications",
+        content: `
+          <h3>Calcined Petroleum Coke (CPC)</h3>
+          <p>Premium quality calcined petroleum coke with high carbon content for specialized applications.</p>
+          
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fixed Carbon</td>
+                <td>98.5% min</td>
+              </tr>
+              <tr>
+                <td>Sulfur</td>
+                <td>1.5% max</td>
+              </tr>
+              <tr>
+                <td>Moisture</td>
+                <td>0.5% max</td>
+              </tr>
+              <tr>
+                <td>Ash</td>
+                <td>0.65% max</td>
+              </tr>
+              <tr>
+                <td>Volatile Matter</td>
+                <td>0.65% max</td>
+              </tr>
+              <tr>
+                <td>Real Density</td>
+                <td>2.05 - 2.13 g/cc</td>
+              </tr>
+              <tr>
+                <td>Size</td>
+                <td>0-20mm, 0-8mm, 0-4mm</td>
+              </tr>
+            </tbody>
+          </table>
+        `,
+      },
+      alox: {
+        title: "ALOx Specifications",
+        content: `
+          <h3>ALOx (Aluminum Oxide Compounds)</h3>
+          <p>An excellent replacement to Aluminum and Ferro Al as a deoxidiser in molten steel. It also helps recover carried over slag in the metal.</p>
+          
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Alumina (Al2O3)</td>
+                <td>60% MIN</td>
+              </tr>
+              <tr>
+                <td>Aluminium (Al)</td>
+                <td>20% MIN</td>
+              </tr>
+              <tr>
+                <td>Silica (SiO2)</td>
+                <td>10% MAX</td>
+              </tr>
+              <tr>
+                <td>Moisture</td>
+                <td>2% MAX</td>
+              </tr>
+              <tr>
+                <td>Size</td>
+                <td>0-50mm, Powder form available</td>
+              </tr>
+            </tbody>
+          </table>
+        `,
+      },
+      fluorspar: {
+        title: "Fluorspar Specifications",
+        content: `
+          <h3>Fluorspar (Various Grades)</h3>
+          <p>High-purity fluorspar available in multiple grades for different industrial applications.</p>
+          
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Grade</th>
+                <th>CaF2 Content</th>
+                <th>Applications</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Metallurgical Grade</td>
+                <td>60% - 85% min</td>
+                <td>Steel manufacturing, fluxing agent</td>
+              </tr>
+              <tr>
+                <td>Ceramic Grade</td>
+                <td>85% - 95% min</td>
+                <td>Ceramics, glass production</td>
+              </tr>
+              <tr>
+                <td>Acid Grade</td>
+                <td>97% min</td>
+                <td>HF production, chemical industry</td>
+              </tr>
+            </tbody>
+          </table>
+        `,
+      },
+      "nozzle-compound": {
+        title: "Nozzle Filling Compound Specifications",
+        content: `
+          <h3>Nozzle Filling Compounds</h3>
+          <p>Specialized compounds for nozzle applications with various grades to suit different requirements.</p>
+          
+          <h4>Chrome Based Grades:</h4>
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Grade</th>
+                <th>Chrome Content</th>
+                <th>Applications</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>High Chrome</td>
+                <td>35% - 38%</td>
+                <td>High temperature applications</td>
+              </tr>
+              <tr>
+                <td>Medium Chrome</td>
+                <td>20% - 25%</td>
+                <td>General purpose applications</td>
+              </tr>
+              <tr>
+                <td>Low Chrome</td>
+                <td>12% - 15%</td>
+                <td>Standard applications</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h4>Silica Based Grades:</h4>
+          <p>We also provide silica based nozzle filling compound with SiO2 content of 85% min, suitable for specific applications where chrome-free materials are required.</p>
+        `,
+      }
+    };
+
+    // Loader logic
+    function hideLoader() {
+      document.body.classList.add("loaded");
+      const loader = document.getElementById("loader");
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 500);
+    }
+    window.addEventListener("load", hideLoader);
+    setTimeout(hideLoader, 3000);
+
+    // Typing animation
+    const typingText = document.getElementById("typing-text");
+    if (typingText) {
+      const text = "Our Products";
+      let index = 0;
+      function type() {
+        if (index < text.length) {
+          typingText.textContent = text.slice(0, index + 1);
+          index++;
+          setTimeout(type, 150);
+        }
+      }
+      setTimeout(() => {
+        typingText.style.opacity = "0";
+        type();
+      }, 1000);
+    }
+
+    // IntersectionObserver for animations
+    if ("IntersectionObserver" in window) {
+      const observerOptions = {
+        root: null,
+        threshold: 0.1,
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("visible");
+            }, index * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".section, .cta, .product-item").forEach((el) => {
+        observer.observe(el);
+      });
+    }
+
+    // Update date & time
+    const dateTimeEl = document.getElementById("date-time");
+    if (dateTimeEl) {
+      function updateDateTime() {
+        const now = new Date();
+        dateTimeEl.textContent = now.toLocaleString("en-IN", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+          timeZoneName: "short",
+        });
+      }
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+    }
+
+    // Modal logic
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalBody = document.getElementById("modal-body");
+    const closeBtn = document.querySelector(".close");
+
+    if (modal && modalBody && closeBtn) {
+      function openModal() {
+        modal.style.display = "block";
+        setTimeout(() => {
+          modal.classList.add("show");
+        }, 10);
+      }
+
+      function closeModal() {
+        modal.classList.remove("show");
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 400);
+      }
+
+      closeBtn.onclick = closeModal;
+
+      window.onclick = function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.style.display === "block") {
+          closeModal();
+        }
+      });
+
+      document.querySelectorAll(".spec-btn").forEach((btn) => {
+        btn.onclick = function () {
+          const product = this.dataset.product;
+          if (productSpecs[product]) {
+            modalTitle.textContent = productSpecs[product].title;
+            modalBody.innerHTML = productSpecs[product].content;
+            openModal();
+          } else {
+            modalTitle.textContent = "Product Specifications";
+            modalBody.innerHTML = `
+              <h3>${this.closest('.product-item').querySelector('h3').textContent}</h3>
+              <p>Detailed specifications for this product are currently being updated. Please contact our technical team for specific requirements.</p>
+              <p>You can reach our technical support at: <strong>technical@rentocreflux.com</strong></p>
+            `;
+            openModal();
+          }
+        };
+      });
+    }
+
+    // Category filtering
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(b => {
+          b.classList.remove('active');
+        });
+
+        // Add active class to clicked button
+        this.classList.add('active');
+
+        const category = this.dataset.category;
+        const productItems = document.querySelectorAll('.product-item');
+
+        productItems.forEach(item => {
+          if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+            }, 100);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Add hover effect for product items
+    document.querySelectorAll('.product-item').forEach(item => {
+      item.addEventListener('mouseenter', function () {
+        this.style.transform = 'translateY(-10px)';
+      });
+
+      item.addEventListener('mouseleave', function () {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers - Rentoc Reflux</title>
+  <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --primary-color: #1a2a44;
+      --accent-color: #f59e0b;
+      --text-light: #fff;
+      --text-dark: #333;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f9;
+      color: var(--text-dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    /* ========== UPDATED NAVBAR SAME AS HOME PAGE ========== */
+    .navbar {
+      background: transparent;
+      padding: 15px 30px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .navbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .navbar a:hover::after {
+      width: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      min-height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      text-align: center;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    .typing {
+      font-size: 5em;
+      margin-bottom: 20px;
+      color: var(--text-light);
+      letter-spacing: 15px;
+      opacity: 0;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease forwards 1s;
+      font-weight: 700;
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 0.5s infinite;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+      background: #fff;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .section.visible {
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .section h2 {
+      color: var(--primary-color);
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--accent-color);
+      border-radius: 2px;
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      color: #555;
+      font-size: 1.1em;
+    }
+
+    .customer-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .customer-item {
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .customer-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .customer-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .customer-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .customer-item.visible {
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .customer-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      transition: transform 0.4s ease;
+    }
+
+    .customer-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .customer-item h3 {
+      color: var(--primary-color);
+      margin: 15px 0;
+      font-size: 1.3em;
+    }
+
+    .customer-item .customer-description {
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--accent-color), #e67e22);
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .cta.visible {
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .cta h2 {
+      color: var(--text-light);
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 700px;
+      margin: 0 auto 30px;
+      font-size: 1.1em;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--primary-color);
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      background: var(--text-light);
+      color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: var(--text-light);
+      padding: 60px 20px 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+
+    .footer-col h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .footer-col h3::after {
+      content: "";
+      width: 50px;
+      height: 4px;
+      background: var(--text-light);
+      display: block;
+      margin-top: 8px;
+      border-radius: 3px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin: 8px 0;
+      transition: var(--transition);
+    }
+
+    .footer-col a:hover {
+      color: var(--text-light);
+      transform: translateX(5px);
+    }
+
+    .social-links a {
+      display: inline-block;
+      color: var(--text-light);
+      margin-right: 15px;
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      transform: translateY(-5px);
+      color: var(--accent-color);
+    }
+
+    .date-time {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 20px;
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    /* Loader styles */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 99999;
+      transition: opacity 0.5s ease;
+    }
+
+    #loader h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    #loader .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid var(--primary-color);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    body.loaded #loader {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 0;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 700px;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.4s ease-out;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-header {
+      background: var(--primary-color);
+      color: var(--text-light);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .close {
+      color: var(--text-light);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close:hover {
+      color: var(--accent-color);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 30px;
+      line-height: 1.7;
+    }
+
+    .modal-body h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .modal-body p {
+      color: #555;
+      font-size: 1.05em;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 60px 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card i {
+      font-size: 2.5em;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+
+    .stat-card .stat-number {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 10px 0;
+    }
+
+    .stat-card .stat-label {
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      60% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ========== RESPONSIVE DESIGN ========== */
+    @media (max-width: 1024px) {
+      .typing {
+        font-size: 4em;
+        letter-spacing: 10px;
+      }
+
+      .navbar {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .section h2 {
+        font-size: 2.2em;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .logo-container {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .typing {
+        font-size: 3em;
+        letter-spacing: 5px;
+      }
+
+      .section {
+        padding: 60px 15px;
+      }
+
+      .section h2 {
+        font-size: 2em;
+      }
+
+      .customer-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .customer-item {
+        padding: 20px;
+      }
+
+      .modal-content {
+        width: 95%;
+        margin: 5% auto;
+      }
+
+      .hero video {
+        display: none;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #1a2a44, #2a5298);
+        min-height: 80vh;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar a {
+        font-size: 1em;
+        padding: 5px;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+
+      .typing {
+        font-size: 2.5em;
+        letter-spacing: 3px;
+      }
+
+      .customer-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .typing {
+        font-size: 2em;
+      }
+
+      .cta-button {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <h1>Rentoc Reflux</h1>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Customer Details</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <video autoplay muted loop>
+      <source src="./assets/vid.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- UPDATED NAVBAR SAME AS HOME PAGE -->
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="logo-container">
+        <img src="./assets/logo.png" alt="Rentoc Reflux Logo">
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="typing" id="typing-text">Our Customers</div>
+      <p style="color: white; max-width: 800px; margin: 0 auto; font-size: 1.2em; opacity: 0.9;">
+        Trusted by industry leaders in steel manufacturing. Discover how we partner with top companies
+        to deliver exceptional materials and solutions.
+      </p>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="section stats-section">
+    <h2>Our Impact</h2>
+    <p>Numbers that speak about our commitment and success in the steel industry.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fas fa-industry"></i>
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Satisfied Customers</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-project-diagram"></i>
+        <div class="stat-number">200+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-calendar-check"></i>
+        <div class="stat-number">3 Years</div>
+        <div class="stat-label">Industry Experience</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-trophy"></i>
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Customer Satisfaction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customers Section -->
+  <div class="section customers">
+    <h2>Our Valued Customers</h2>
+    <p>
+      We are proud to serve leading companies in the steel industry with our
+      high-quality materials and innovative solutions. Our partnerships drive
+      mutual success and industry advancement.
+    </p>
+    <div class="customer-list">
+      <div class="customer-item" data-customer="suryadev">
+        <img
+          src="https://media.licdn.com/dms/image/v2/C560BAQENd5zKUG7PEQ/company-logo_200_200/company-logo_200_200/0/1662617279878/suryadev_alloys_and_power_pvt_ltd__logo?e=2147483647&v=beta&t=fVwLZeaZ3DuXDbMCekBQE4sBaERbaPbIbzr4_ljrl0k"
+          alt="Suryadev Alloys and Power Pvt Ltd" />
+        <h3>Suryadev Alloys and Power Pvt Ltd</h3>
+        <p class="customer-description">Leading steel manufacturer specializing in high-quality intermediate and
+          finished steel products</p>
+      </div>
+      <div class="customer-item" data-customer="nutan">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsLwhpsA2XVrAZrPu8G69Koe5fbYmyLWkKbQ&s"
+          alt="Nutan Ispat & Power Pvt Ltd" />
+        <h3>Nutan Ispat & Power Pvt Ltd</h3>
+        <p class="customer-description">Specialized in sponge iron, billets and TMT bars manufacturing</p>
+      </div>
+      <div class="customer-item" data-customer="mukand">
+        <img src="https://s3-symbol-logo.tradingview.com/mukand-ltd--600.png" alt="Mukand Ltd" />
+        <h3>Mukand Ltd</h3>
+        <p class="customer-description">Industry pioneer in high-quality alloy steel and stainless steel manufacturing
+        </p>
+      </div>
+      <div class="customer-item" data-customer="shyam">
+        <img src="https://www.manganese.org/sites/default/files/inline-images/Shyam.jpg"
+          alt="Shyam Sel and Power Ltd" />
+        <h3>Shyam Sel and Power Ltd</h3>
+        <p class="customer-description">Leading manufacturer of Ferro Alloys from Manganese Ore</p>
+      </div>
+      <div class="customer-item" data-customer="nakoda">
+        <img src="https://www.nakodasteel.com/wp-content/uploads/2018/07/logo.png" alt="Nakoda Steel and Power" />
+        <h3>Nakoda Steel and Power</h3>
+        <p class="customer-description">Integrated steel plant specializing in quality steel products</p>
+      </div>
+      <div class="customer-item" data-customer="aarti">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToqx-V0z3p8Bgj8RQpMogprFk0fN-pL3n7bg&s"
+          alt="Aarti Steels Ltd" />
+        <h3>Aarti Steels Ltd</h3>
+        <p class="customer-description">Expert in Carbon and Alloy Steel Rounds manufacturing</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <div class="section" style="background-color: #f8f9fa;">
+    <h2>What Our Customers Say</h2>
+    <p>Hear from our valued partners about their experience working with Rentoc Reflux.</p>
+
+    <div class="customer-list" style="margin-top: 40px;">
+      <div class="customer-item" style="text-align: left;">
+        <i class="fas fa-quote-left" style="color: var(--accent-color); font-size: 1.5em; margin-bottom: 15px;"></i>
+        <p>"Rentoc Reflux has consistently delivered high-quality materials that meet our stringent requirements. Their
+          technical support is exceptional."</p>
+        <div style="margin-top: 20px;">
+          <strong>— Production Manager</strong><br>
+          <span style="color: #666;">Suryadev Alloys</span>
+        </div>
+      </div>
+      <div class="customer-item" style="text-align: left;">
+        <i class="fas fa-quote-left" style="color: var(--accent-color); font-size: 1.5em; margin-bottom: 15px;"></i>
+        <p>"The quality of fluorides and carbon materials from Rentoc Reflux has significantly improved our production
+          efficiency and product quality."</p>
+        <div style="margin-top: 20px;">
+          <strong>— Technical Director</strong><br>
+          <span style="color: #666;">Nutan Ispat & Power</span>
+        </div>
+      </div>
+      <div class="customer-item" style="text-align: left;">
+        <i class="fas fa-quote-left" style="color: var(--accent-color); font-size: 1.5em; margin-bottom: 15px;"></i>
+        <p>"Reliable supply chain and excellent customer service make Rentoc Reflux our preferred materials partner in
+          the steel industry."</p>
+        <div style="margin-top: 20px;">
+          <strong>— Procurement Head</strong><br>
+          <span style="color: #666;">Mukand Ltd</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta">
+    <h2>Join Our Esteemed Customers</h2>
+    <p>
+      Experience the Rentoc Reflux difference. Contact us today to see how we can support your steel operations with our
+      premium products and dedicated services.
+    </p>
+    <a href="contact.html" class="cta-button">Get in Touch</a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Rentoc Reflux</h3>
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./career.html">Careers</a>
+        <a href="./products.html">Solutions</a>
+        <a href="./ourcustomers.html">Our Clients</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Current Date & Time</h3>
+        <div class="date-time" id="date-time"></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Rentoc Reflux. All rights reserved by Hruta Solutions.
+    </div>
+  </div>
+
+  <script>
+    // Enhanced customer details data
+    const customerDetails = {
+      suryadev: {
+        title: "Suryadev Alloys and Power Pvt Ltd",
+        content: `
+          <h3>About the Company</h3>
+          <p>Established in 2006, Suryadev Alloys and Power is a leading steel manufacturer in South India, producing high-quality intermediate and finished steel products.</p>
+          <p>With state-of-the-art facilities and a commitment to excellence, they have become one of our most valued long-term partners.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 2+ years</p>
+          <p><strong>Key Products:</strong> Fluorides, Carbon additives, Aluminum solutions</p>
+          <p><strong>Impact:</strong> Improved steel purity by 15%, reduced production costs by 8%</p>
+          
+          <h3>Testimonial</h3>
+          <p style="font-style: italic; background: #f8f9fa; padding: 15px; border-left: 4px solid var(--accent-color);">
+            "Rentoc Reflux has been instrumental in enhancing our steel quality while optimizing costs. Their technical expertise and reliable supply chain make them a preferred partner."
+          </p>
+        `,
+      },
+      nutan: {
+        title: "Nutan Ispat & Power Pvt Ltd",
+        content: `
+          <h3>About the Company</h3>
+          <p>Incorporated in 2002, Nutan Ispat & Power Private Limited is engaged in manufacturing of sponge iron, billets and TMT bars.</p>
+          <p>Their commitment to quality and sustainable practices aligns perfectly with our company values.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 1.5+ years</p>
+          <p><strong>Key Products:</strong> Carbon additives, Specialized fluorides</p>
+          <p><strong>Impact:</strong> Enhanced alloy strength by 12%, reduced energy consumption by 5%</p>
+        `,
+      },
+      mukand: {
+        title: "Mukand Ltd",
+        content: `
+          <h3>About the Company</h3>
+          <p>Since 1937, Mukand Ltd has been at the forefront of high-quality alloy steel, stainless steel, and heavy machinery manufacturing.</p>
+          <p>We are proud to supply materials to this industry pioneer with a legacy of excellence spanning over eight decades.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 3+ years</p>
+          <p><strong>Key Products:</strong> Premium aluminum solutions, Specialized fluorides</p>
+          <p><strong>Impact:</strong> Improved material consistency, enhanced product durability</p>
+        `,
+      },
+      shyam: {
+        title: "Shyam Sel and Power Ltd",
+        content: `
+          <h3>About the Company</h3>
+          <p>Shyam Sel And Power Limited is among the leading manufacturers of Ferro Alloys by processing Manganese Ore, with units in Jamuria and Mangalpur in West Bengal.</p>
+          <p>Their innovative approach to alloy production makes them an ideal partner for our advanced material solutions.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 2+ years</p>
+          <p><strong>Key Products:</strong> Carbon additives, Aluminum deoxidizers</p>
+          <p><strong>Impact:</strong> Optimized alloy compositions, reduced impurities</p>
+        `,
+      },
+      nakoda: {
+        title: "Nakoda Steel and Power",
+        content: `
+          <h3>About the Company</h3>
+          <p>Shree Nakoda Ispat Limited is an integrated steel plant based in Raipur, Chhattisgarh, engaged in manufacturing steel products.</p>
+          <p>We have collaborated with Nakoda on multiple projects, delivering consistent quality and reliable service.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 2.5+ years</p>
+          <p><strong>Key Products:</strong> Complete range of steel manufacturing materials</p>
+          <p><strong>Impact:</strong> Streamlined production processes, improved yield rates</p>
+        `,
+      },
+      aarti: {
+        title: "Aarti Steels Ltd",
+        content: `
+          <h3>About the Company</h3>
+          <p>Aarti Steels Ltd excels in supplying high-quality Carbon and Alloy Steel Rounds, offering precision, durability, and customized solutions.</p>
+          <p>Our partnership with Aarti Steels has resulted in numerous successful projects and mutual growth.</p>
+          
+          <h3>Partnership Details</h3>
+          <p><strong>Duration:</strong> 1+ years</p>
+          <p><strong>Key Products:</strong> Carbon materials, Flux additives</p>
+          <p><strong>Impact:</strong> Enhanced steel strength parameters, improved product quality</p>
+        `,
+      },
+    };
+
+    // Loader logic with fallback
+    function hideLoader() {
+      console.log("Attempting to hide loader");
+      document.body.classList.add("loaded");
+      const loader = document.getElementById("loader");
+      loader.style.opacity = "0";
+      setTimeout(() => {
+        loader.style.display = "none";
+        console.log("Loader hidden");
+      }, 500);
+    }
+    window.addEventListener("load", hideLoader);
+    setTimeout(hideLoader, 5000); // Fallback if load event doesn't fire
+
+    // Typing animation
+    const typingText = document.getElementById("typing-text");
+    const text = "Our Customers";
+    let index = 0;
+
+    function type() {
+      if (index < text.length) {
+        typingText.textContent = text.slice(0, index + 1);
+        index++;
+        setTimeout(type, 150); // Adjust speed (150ms per character)
+      } else {
+        typingText.style.animation =
+          "fadeIn 1s ease forwards, blink 0.5s infinite";
+      }
+    }
+
+    // Start typing after 1s delay
+    setTimeout(() => {
+      typingText.style.opacity = "0"; // Ensure initial opacity
+      type();
+    }, 1000);
+
+    // IntersectionObserver for animations
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: "0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target); // Stop observing after animation
+        }
+      });
+    }, observerOptions);
+
+    // Observe sections and cards with staggered delay
+    document.querySelectorAll(".section, .cta").forEach((el) => {
+      observer.observe(el);
+    });
+
+    document.querySelectorAll(".customer-item").forEach((el, index) => {
+      setTimeout(() => {
+        observer.observe(el);
+      }, index * 100); // Stagger animation
+    });
+
+    // Observe stat cards
+    document.querySelectorAll(".stat-card").forEach((el, index) => {
+      setTimeout(() => {
+        observer.observe(el);
+      }, index * 150);
+    });
+
+    // Update date & time live
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+        timeZoneName: "short",
+      };
+      document.getElementById("date-time").textContent = now.toLocaleString(
+        "en-IN",
+        options
+      );
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Enhanced Modal logic
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalBody = document.getElementById("modal-body");
+    const closeBtn = document.querySelector(".close");
+
+    closeBtn.onclick = function () {
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
+    };
+
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+    };
+
+    // Close modal with Escape key
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && modal.style.display === "block") {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+    });
+
+    document.querySelectorAll(".customer-item").forEach((item) => {
+      item.onclick = function () {
+        const customer = this.dataset.customer;
+        if (customerDetails[customer]) {
+          modalTitle.textContent = customerDetails[customer].title;
+          modalBody.innerHTML = customerDetails[customer].content;
+          modal.style.display = "block";
+          document.body.style.overflow = "hidden";
+        }
+      };
+    });
+
+    // Animate numbers in stats
+    function animateStats() {
+      const statNumbers = document.querySelectorAll('.stat-number');
+
+      statNumbers.forEach(stat => {
+        const target = parseInt(stat.textContent);
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          stat.textContent = Math.floor(current) + (stat.textContent.includes('%') ? '%' : '+');
+        }, 30);
+      });
+    }
+
+    // Trigger stats animation when stats section is visible
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStats();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+  </script>
+</body>
+
+</html>
